@@ -14,7 +14,33 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <table class="table table-responsive">
+                        <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>Stol</td>
+                            <td>Proizvodi</td>
+                            <td>Datum</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($orders as $order)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $order->table->name }}</td>
+                                <td>
+                                    @foreach($order->products()->get() as $product)
+                                        {{ $product->name }}
+                                        @if (!$loop->last)
+                                            ,
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>{{ $order->created_at->format('d.m.Y') }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

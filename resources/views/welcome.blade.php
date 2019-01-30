@@ -62,6 +62,7 @@
                 margin-bottom: 30px;
             }
         </style>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -79,21 +80,61 @@
                 </div>
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+            <div class="container">
+                <form action="{{ route('order_create') }}" method="post">
+                    @csrf
+
+                    <h3>Proizvodi</h3>
+                    @foreach ($products as $product)
+                        @if ($loop->index % 3 == 0)
+                            <div class="row">
+                        @endif
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col">
+                                    {{ $product->name }} - {{ $product->price }}€
+                                </div>
+                                <div class="col">
+                                    <input type="checkbox" name="product[]" value="{{ $product->id }}" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    {{ $product->description }}
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                        @if ($loop->index % 3 == 2 || $loop->last)
+                            </div>
+                        @endif
+                    @endforeach
+
+                    <h3>Stolovi</h3>
+                    @foreach ($tables as $table)
+                        @if ($loop->index % 3 == 0)
+                            <div class="row">
+                        @endif
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col">
+                                    {{ $table->name }}
+                                </div>
+                                <div class="col">
+                                    <input type="radio" name="table" value="{{ $table->id }}" >
+                                </div>
+                            </div>
+                        </div>
+                        @if ($loop->index % 3 == 2 || $loop->last)
+                            </div>
+                        @endif
+                    @endforeach
+                    <hr>
+                    <button type="submit" class="btn btn-success">Naruci</button>
+                </form>
             </div>
         </div>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     </body>
 </html>
